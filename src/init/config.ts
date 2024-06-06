@@ -1,9 +1,9 @@
-import * as env from 'env-var';
+import * as env from "env-var";
 
 export type Config = {
-    port: number;
+  port: number;
 };
 
 export const config: Config = {
-    port: env.get('PORT').required().asPortNumber(),
+  port: env.get("PORT").required().asPortNumber(),
 };
