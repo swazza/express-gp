@@ -18,15 +18,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - uses: octue/generate-pull-request-description@1.0.0.beta-2
         id: pr-description
         with:
           pull_request_url: ${{ github.event.pull_request.url }}
           api_token: ${{ secrets.GH_TOKEN }}
-
       - name: Update pull request body
         uses: riskledger/update-pr-description@v2
         with:
           body: ${{ steps.pr-description.outputs.pull_request_description }}
           token: ${{ secrets.GH_TOKEN }}
+
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        name: Run Tests
+      - run: bun test
