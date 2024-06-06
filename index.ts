@@ -1,4 +1,4 @@
-import 'dotenv/config';
-import { start } from './src/app';
+import "dotenv/config";
+import { start } from "./src/app";
 
 start();
