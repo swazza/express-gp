@@ -19,6 +19,6 @@
     "express": "^4.19.2"
   },
   "scripts": {
-    "prepare": "husky"
+    "prepare": "if test \"$NODE_ENV\" != \"production\" ; then husky ; fi"
   }
 }
