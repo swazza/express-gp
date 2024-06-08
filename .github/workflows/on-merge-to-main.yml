@@ -37,3 +37,5 @@ jobs:
           sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
+          build-args: |
+            GIT_SHA: ${{ github.sha }}
