@@ -11,3 +11,14 @@ test("/", () => {
       if (err) throw err;
     });
 });
+
+test("/metadata", () => {
+  request(app)
+    .get("/metadata")
+    .expect(200)
+    .expect("Content-Type", /json/)
+    .end((err, res) => {
+      if (err) throw err;
+      expect(res.body.gitSHA).toBeString();
+    });
+});
