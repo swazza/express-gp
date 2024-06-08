@@ -2,7 +2,11 @@
 # see all versions at https://hub.docker.com/r/oven/bun/tags
 FROM oven/bun:1.1.12-alpine as base
 WORKDIR /usr/src/app
+ARG GIT_SHA=local
+ENV GIT_SHA=$GIT_SHA
 ENV NODE_ENV=production
+ENV PORT=3000
+
 
 # install dependencies into temp directory
 # this will cache them and speed up future builds
@@ -20,7 +24,7 @@ RUN cd /temp/prod && bun install --production
 
 # copy production dependencies and source code into final image
 FROM base AS release
-ENV PORT=3000
+
 COPY --from=prerelease /temp/prod/node_modules node_modules
 COPY . .
 
