@@ -1,8 +1,9 @@
 import type { Handler } from "express";
 import type { Span } from "@opentelemetry/api";
 import opentelemetry, { SpanStatusCode } from "@opentelemetry/api";
+import { Logger } from "winston";
 
-export const getOTELMiddleware = (): Handler => {
+export const getOTELMiddleware = (logger: Logger): Handler => {
   return function (req, res, next) {
     const start = process.hrtime();
     const tracer = opentelemetry.trace.getTracer("http-request");
@@ -32,6 +33,11 @@ export const getOTELMiddleware = (): Handler => {
           span.setStatus({ code: SpanStatusCode.OK });
         }
 
+        logger.info("request", {
+          method,
+          path: req.path,
+          code,
+        });
         span.end();
       });
 

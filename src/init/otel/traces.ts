@@ -11,9 +11,7 @@ export function initTracing(resource: Resource) {
   const traceProvider = new NodeTracerProvider({ resource });
   const isProduction = process.env.NODE_ENV === "production";
   const exporter = isProduction
-    ? new OTLPTraceExporter({
-        url: process.env.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT,
-      })
+    ? new OTLPTraceExporter()
     : new ConsoleSpanExporter();
 
   const spanProcessor = isProduction
