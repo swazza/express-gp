@@ -1,4 +1,4 @@
-import { createLogger, transports } from "winston";
+import { createLogger } from "winston";
 import { OpenTelemetryTransportV3 } from "@opentelemetry/winston-transport";
 
 export function getLogger() {

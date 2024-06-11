@@ -7,8 +7,6 @@ import {
   ConsoleLogRecordExporter,
 } from "@opentelemetry/sdk-logs";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
-import { WinstonInstrumentation } from "@opentelemetry/instrumentation-winston";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
 
 export function initLogging(resource: Resource) {
   const isProduction = process.env.NODE_ENV === "production";
@@ -23,12 +21,4 @@ export function initLogging(resource: Resource) {
 
   loggerProvider.addLogRecordProcessor(processor);
   logsAPI.logs.setGlobalLoggerProvider(loggerProvider);
-
-  registerInstrumentations({
-    instrumentations: [
-      new WinstonInstrumentation({
-        // See below for Winston instrumentation options.
-      }),
-    ],
-  });
 }
