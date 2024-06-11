@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import { config } from "./init/config";
 import { initOtel } from "./init/otel";
 import { getLogger } from "./init/logger";
-import { getOTELMiddleware } from "./middleware/otel";
+import { getOTELMiddleware, getRequestErrorHandler } from "./middleware";
 import { getReqMetrics } from "./init/metrics";
 
 export const app = express();
@@ -23,6 +23,12 @@ export function start() {
       gitSHA: config.gitSHA,
     });
   });
+
+  router.get("/error", (req, res, next) => {
+    next(new Error("This is a test error"));
+  });
+
+  router.use(getRequestErrorHandler(logger));
 
   app.use("/", router);
 
