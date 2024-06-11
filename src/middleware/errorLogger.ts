@@ -3,7 +3,6 @@ import type { Logger } from "winston";
 
 export function getRequestErrorHandler(logger: Logger): ErrorRequestHandler {
   return function (err: Error, req, res, next) {
-    console.log("request error");
     logger.error("request error", {
       method: req.method,
       path: req.route?.path,

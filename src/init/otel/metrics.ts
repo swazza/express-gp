@@ -14,7 +14,7 @@ export function initMetrics(resource: Resource) {
     : new ConsoleMetricExporter();
 
   const metricReader = new PeriodicExportingMetricReader({
-    exporter: new ConsoleMetricExporter(),
+    exporter,
   });
 
   const meterProvider = new MeterProvider({
