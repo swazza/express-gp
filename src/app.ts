@@ -6,6 +6,8 @@ import { getOTELMiddleware, getRequestErrorHandler } from "./middleware";
 import { getReqMetrics } from "./init/metrics";
 
 export const app = express();
+app.set("view engine", "pug");
+app.set("views", "src/views");
 
 export function start() {
   initOtel();
@@ -15,7 +17,7 @@ export function start() {
   const router = Router();
   router.use(getOTELMiddleware(logger, reqMetrics));
   router.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.render("index", { title: "Hey", message: "Hello there!" });
   });
 
   router.get("/metadata/:id", (req, res) => {
