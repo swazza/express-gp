@@ -6,8 +6,9 @@ import {
 } from "@opentelemetry/sdk-trace-base";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import type { TracerProvider } from "@opentelemetry/api";
 
-export function initTracing(resource: Resource) {
+export function initTracing(resource: Resource): NodeTracerProvider {
   const traceProvider = new NodeTracerProvider({ resource });
   const isProduction = process.env.NODE_ENV === "production";
   const exporter = isProduction
@@ -20,4 +21,5 @@ export function initTracing(resource: Resource) {
 
   traceProvider.addSpanProcessor(spanProcessor);
   traceProvider.register();
+  return traceProvider;
 }

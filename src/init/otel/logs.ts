@@ -8,7 +8,7 @@ import {
 } from "@opentelemetry/sdk-logs";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 
-export function initLogging(resource: Resource) {
+export function initLogging(resource: Resource): LoggerProvider {
   const isProduction = process.env.NODE_ENV === "production";
   const loggerProvider = new LoggerProvider({ resource });
   const exporter = isProduction
@@ -21,4 +21,5 @@ export function initLogging(resource: Resource) {
 
   loggerProvider.addLogRecordProcessor(processor);
   logsAPI.logs.setGlobalLoggerProvider(loggerProvider);
+  return loggerProvider;
 }

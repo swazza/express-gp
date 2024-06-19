@@ -40,8 +40,16 @@ const resource = Resource.default().merge(
   }),
 );
 
-export function initOtel() {
-  initLogging(resource);
-  initMetrics(resource);
-  initTracing(resource);
+export function initOtel(): () => Promise<void> {
+  const logProvider = initLogging(resource);
+  const metricsProvider = initMetrics(resource);
+  const tracingProvider = initTracing(resource);
+
+  return async function shutdown() {
+    await [
+      logProvider.shutdown(),
+      metricsProvider.shutdown(),
+      tracingProvider.shutdown(),
+    ];
+  };
 }

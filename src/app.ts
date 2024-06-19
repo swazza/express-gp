@@ -8,7 +8,7 @@ import { getReqMetrics } from "./init/metrics";
 export const app = express();
 
 export function start() {
-  initOtel();
+  const shutdownOtel = initOtel();
   const logger = getLogger();
   const reqMetrics = getReqMetrics();
 
@@ -32,7 +32,17 @@ export function start() {
 
   app.use("/", router);
 
-  app.listen(config.port, () => {
+  const server = app.listen(config.port, () => {
     console.log(`Server is running on port ${config.port}`);
   });
+
+  async function shutdown() {
+    server.close(() => {
+      console.log("Server is shut down");
+    });
+    await shutdownOtel();
+  }
+
+  process.on("SIGTERM", shutdown);
+  process.on("SIGINT", shutdown);
 }

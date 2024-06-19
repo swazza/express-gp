@@ -7,7 +7,7 @@ import {
 import { Resource } from "@opentelemetry/resources";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 
-export function initMetrics(resource: Resource) {
+export function initMetrics(resource: Resource): MeterProvider {
   const isProduction = process.env.NODE_ENV === "production";
   const exporter = isProduction
     ? new OTLPMetricExporter()
@@ -23,4 +23,5 @@ export function initMetrics(resource: Resource) {
   });
 
   opentelemetry.metrics.setGlobalMeterProvider(meterProvider);
+  return meterProvider;
 }
